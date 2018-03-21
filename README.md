@@ -1,4 +1,4 @@
-# frontend for a Chat Application - inspired by Messenger
+# Chat Application - Frontend
 
 - Clone the repo
 - Change your directory to the cloned one
