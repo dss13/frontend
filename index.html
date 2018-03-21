@@ -1,0 +1,67 @@
+<html ng-app="chat">
+
+<head>
+    <title>Chat App</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/external/css/uikit.min.css">
+    <link rel="stylesheet" type="text/css" href="/external/css/emoji.css">
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <script type="text/javascript" src="/external/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/external/js/angular.js"></script>
+    <script type="text/javascript" src="/external/js/sanitise.js"></script>
+    <script type="text/javascript" src="/external/js/uikit.min.js"></script>
+    <script type="text/javascript" src="/external/js/emoji.js"></script>
+</head>
+
+<body>
+    <div class="uk-grid-collapse uk-child-width-expand@s uk-text-center" uk-grid>
+        <div class="uk-width-1-4">
+            <div class="uk-background-primary uk-padding-small uk-padding-remove-horizontal uk-card uk-card-default uk-card-body uk-height-viewport" ng-controller="onlineController">
+                <div class="uk-margin-small uk-padding-small uk-padding-remove-vertical">
+                    <form class="uk-search uk-search-default uk-width-1-1">
+                        <span uk-search-icon id="custom-search-icon"></span>
+                        <input ng-model="searchText" class="uk-search-input uk-custom-search" type="search" placeholder="Search...">
+                    </form>
+                </div>
+                <div class="uk-margin uk-online-container">
+                    <div class="uk-online-box uk-padding-small uk-text-left" ng-repeat="m in online | filter:searchText" ng-click="userChat()" id="{{m.id}}">
+                        {{m.name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-3-4" ng-controller="messsagesController">
+            <div class="uk-height-viewport uk-padding-small">
+                <div id="userName" class="uk-text-bold uk-text-muted">
+                    Click on a user
+                </div>
+                <hr>
+                <div id="uk-messages-box" ngMessages>
+                    <div ng-class="{'uk-flex-right': m.me, 'uk-flex-left': !m.me}" class="uk-flex uk-margin-small-top" ng-repeat="m in messages">
+                        <div class="uk-position-relative uk-background-muted uk-padding-xs uk-message-div uk-background-custom">
+                            <p ng-bind-html="m.message" class="uk-margin-remove" ng-class="{'uk-text-right': m.me, 'uk-text-left': !m.me}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="uk-compose" class="uk-position-bottom-right uk-padding-remove-horizontal uk-padding-remove-bottom uk-padding-small uk-width-3-4 uk-overlay uk-overlay-default" ng-controller="composeController" uk-grid>
+                    <div class="uk-margin uk-width-4-5 uk-position-relative">
+                        <textarea class="uk-text-left" placeholder="Keep the conversation going..." id="message-input" contenteditable="true" ng-model="message">
+                        </textarea>
+                        <div uk-toggle="target: #emojiContainer" id="emoji-button">
+                            <span class="uk-text-bold">&#9786;</span>
+                        </div>
+                        <div id="emojiContainer" hidden>
+                            <span ng-repeat="m in emojis" ng-bind-html="m.emoji" ng-click="addEmoji(m.name)"></span>
+                        </div>
+                    </div>
+                    <div class="uk-margin uk-width-1-5">
+                        <button class="uk-button-primary uk-button" ng-click="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="/js/messages.js"></script>
+</body>
+
+</html>
